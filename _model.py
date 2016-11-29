@@ -99,8 +99,9 @@ class ContentImport(_odm_ui.model.UIEntity):
             ('enabled', 'content_import@enabled'),
             ('errors', 'content_import@errors'),
             ('paused_till', 'content_import@paused_till'),
-            ('owner', 'content_import@owner'),
         ]
+
+        browser.finder_adjust = lambda f: f.eq('content_language', _lang.get_current())
 
     def odm_ui_browser_row(self) -> tuple:
         model = _content.get_model_title(self.content_model)
@@ -109,7 +110,6 @@ class ContentImport(_odm_ui.model.UIEntity):
         content_author = self.content_author.full_name
         enabled = '<span class="label label-success">' + self.t('word_yes') + '</span>' if self.enabled else ''
         paused_till = self.f_get('paused_till', fmt='pretty_date_time') if _datetime.now() < self.paused_till else ''
-        owner = self.owner.full_name
 
         if self.errors:
             errors = '<span class="label label-danger" title="{}">{}</span>'\
@@ -117,7 +117,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         else:
             errors = ''
 
-        return model, driver, driver_options, content_author, enabled, errors, paused_till, owner
+        return model, driver, driver_options, content_author, enabled, errors, paused_till
 
     def odm_ui_m_form_setup(self, frm: _form.Form):
         """Hook.
@@ -135,6 +135,16 @@ class ContentImport(_odm_ui.model.UIEntity):
             value=self.enabled,
         ))
 
+        frm.add_widget(_widget.static.Text(
+            weight=20,
+            uid='content_language',
+            label=self.t('content_language'),
+            value=self.content_language or _lang.get_current(),
+            title=_lang.lang_title(self.content_language or _lang.get_current()),
+            h_size='col-sm-4',
+            required=True,
+        ))
+
         frm.add_widget(_content.widget.ModelSelect(
             weight=30,
             uid='content_model',
@@ -144,17 +154,8 @@ class ContentImport(_odm_ui.model.UIEntity):
             required=True,
         ))
 
-        frm.add_widget(_widget.select.Language(
-            weight=40,
-            uid='content_language',
-            label=self.t('content_language'),
-            value=self.content_language or _lang.get_current(),
-            h_size='col-sm-4',
-            required=True,
-        ))
-
         frm.add_widget(_content.widget.SectionSelect(
-            weight=50,
+            weight=40,
             uid='content_section',
             label=self.t('content_section'),
             value=self.content_section,
@@ -163,7 +164,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content.widget.StatusSelect(
-            weight=60,
+            weight=50,
             uid='content_status',
             label=self.t('content_status'),
             value='waiting' if self.is_new else self.content_status,
@@ -172,7 +173,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_auth.widget.UserSelect(
-            weight=70,
+            weight=60,
             uid='content_author',
             label=self.t('content_author'),
             value=self.content_author if not self.is_new else _auth.get_current_user(),
@@ -181,7 +182,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content_import_widget.DriverSelect(
-            weight=80,
+            weight=70,
             uid='driver',
             label=self.t('driver'),
             value=self.driver,
@@ -190,14 +191,14 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.input.Tokens(
-            weight=90,
+            weight=80,
             uid='add_tags',
             label=self.t('additional_tags'),
             value=self.add_tags,
         ))
 
         frm.add_widget(_widget.select.DateTime(
-            weight=100,
+            weight=90,
             uid='paused_till',
             label=self.t('paused_till'),
             value=self.paused_till,
@@ -206,7 +207,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.input.Integer(
-            weight=110,
+            weight=100,
             uid='errors',
             label=self.t('errors'),
             value=self.errors,

@@ -75,8 +75,8 @@ class RSS(Abstract):
         items = parser.get_children('channel')[0].get_children('item')  # type: _Tuple[_feed.rss.em.Element]
         for rss_item in items:
             # Check for duplication
-            f = _content.find(o['content_model'], status=None, check_publish_time=False)
-            if f.eq('ext_links', rss_item.get_children('link')[0].text).count():
+            f = _content.find(o['content_model'], status=None, check_publish_time=False, language=o['content_language'])
+            if f.inc('ext_links', rss_item.get_children('link')[0].text).count():
                 continue
 
             # Dispensing new entity

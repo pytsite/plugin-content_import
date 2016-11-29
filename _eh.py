@@ -22,6 +22,7 @@ def cron_1min():
     """pytsite.cron.1min
     """
     max_errors = _reg.get('content_import.max_errors', 13)
+    max_items = _reg.get('content_import.max_items', 10)
     delay_errors = _reg.get('content_import.delay_errors', 120)
 
     importer_finder = _odm.find('content_import') \
@@ -40,7 +41,6 @@ def cron_1min():
         })
 
         driver = _api.get_driver(importer.driver)
-        max_items = 1
         items_imported = 0
         try:
             importer.lock()
