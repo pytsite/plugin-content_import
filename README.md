@@ -3,6 +3,10 @@
 
 ## Changelog
 
+### 0.2.2 (2016-12-02)
+- Fixed content section's autodetection.
+
+
 ### 0.2.1 (2016-12-02)
 - Added content sections deletion prevention.
 - Fixed tags language.

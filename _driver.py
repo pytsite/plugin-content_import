@@ -94,17 +94,16 @@ class RSS(Abstract):
                 entity.f_set('description', _util.strip_html_tags(rss_item.get_children('description')[0].text))
 
             # Section
-            if entity.has_field('section') and rss_item.has_children('category'):
-                # Trying to find appropriate section
-                for category in rss_item.get_children('category'):
-                    s = _content.find_section_by_title(category.text, language=o['content_language'])
-                    if s:
-                        entity.f_set('section', s)
-                        break
+            if entity.has_field('section'):
+                entity.f_set('section', o['content_section'])
 
-                # Set default section which has been chosen at the settings form
-                if not entity.section:
-                    entity.f_set('section', o['content_section'])
+                # Trying to find appropriate section according to source data
+                if rss_item.has_children('category'):
+                    for category in rss_item.get_children('category'):
+                        s = _content.find_section_by_title(category.title, language=o['content_language'])
+                        if s:
+                            entity.f_set('section', s)
+                            break
 
             # Tags
             if entity.has_field('tags') and rss_item.has_children('{https://pytsite.xyz}tag'):
