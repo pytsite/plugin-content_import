@@ -2,7 +2,8 @@
 """
 from datetime import datetime as _datetime, timedelta as _timedelta
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, logger as _logger, content as _content, reg as _reg, events as _events
+from pytsite import odm as _odm, logger as _logger, content as _content, reg as _reg, events as _events, \
+    taxonomy as _taxonomy, errors as _errors, lang as _lang
 from . import _api, _model
 
 __author__ = 'Alexander Shepetko'
@@ -110,3 +111,8 @@ def cron_1min():
         finally:
             importer.save()
             importer.unlock()
+
+
+def taxonomy_term_pre_delete(term: _taxonomy.model.Term):
+    if term.model == 'section' and _odm.find('content_import').eq('content_section', term).count():
+        raise _errors.ForbidDeletion(_lang.t('content_import@forbid_content_section_delete', {'section': term.title}))

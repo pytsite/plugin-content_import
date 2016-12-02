@@ -24,8 +24,8 @@ class ContentImport(_odm_ui.model.UIEntity):
         self.define_field(_auth_storage_odm.field.User('owner', required=True))
         self.define_field(_auth_storage_odm.field.User('content_author', required=True))
         self.define_field(_odm.field.Ref('content_section', model='section'))
-        self.define_field(_odm.field.String('content_status', required=True))
-        self.define_field(_odm.field.String('content_language', required=True))
+        self.define_field(_odm.field.String('content_status', required=True, default='published'))
+        self.define_field(_odm.field.String('content_language', required=True, default=_lang.get_current()))
         self.define_field(_odm.field.Bool('enabled', default=True))
         self.define_field(_odm.field.Integer('errors'))
         self.define_field(_odm.field.String('last_error'))
@@ -90,34 +90,34 @@ class ContentImport(_odm_ui.model.UIEntity):
         :type browser: pytsite.odm_ui._browser.Browser
         """
         browser.default_sort_field = 'driver'
-
+        browser.finder_adjust = lambda f: f.eq('content_language', _lang.get_current())
         browser.data_fields = [
             ('content_model', 'content_import@content_model'),
             ('driver', 'content_import@driver'),
             ('driver_opts', 'content_import@driver_opts'),
+            ('content_section', 'content_import@content_section'),
             ('content_author', 'content_import@content_author'),
             ('enabled', 'content_import@enabled'),
             ('errors', 'content_import@errors'),
             ('paused_till', 'content_import@paused_till'),
         ]
 
-        browser.finder_adjust = lambda f: f.eq('content_language', _lang.get_current())
-
     def odm_ui_browser_row(self) -> tuple:
         model = _content.get_model_title(self.content_model)
         driver = _api.get_driver(self.driver).get_description()
         driver_options = str(dict(self.driver_opts))
+        content_section = self.content_section.title if self.content_section else '&nbsp;'
         content_author = self.content_author.full_name
         enabled = '<span class="label label-success">' + self.t('word_yes') + '</span>' if self.enabled else ''
         paused_till = self.f_get('paused_till', fmt='pretty_date_time') if _datetime.now() < self.paused_till else ''
 
         if self.errors:
-            errors = '<span class="label label-danger" title="{}">{}</span>'\
+            errors = '<span class="label label-danger" title="{}">{}</span>' \
                 .format(_util.escape_html(self.last_error), self.errors)
         else:
             errors = ''
 
-        return model, driver, driver_options, content_author, enabled, errors, paused_till
+        return model, driver, driver_options, content_section, content_author, enabled, errors, paused_till
 
     def odm_ui_m_form_setup(self, frm: _form.Form):
         """Hook.
@@ -135,18 +135,8 @@ class ContentImport(_odm_ui.model.UIEntity):
             value=self.enabled,
         ))
 
-        frm.add_widget(_widget.static.Text(
-            weight=20,
-            uid='content_language',
-            label=self.t('content_language'),
-            value=self.content_language or _lang.get_current(),
-            title=_lang.lang_title(self.content_language or _lang.get_current()),
-            h_size='col-sm-4',
-            required=True,
-        ))
-
         frm.add_widget(_content.widget.ModelSelect(
-            weight=30,
+            weight=20,
             uid='content_model',
             label=self.t('content_model'),
             value=self.content_model,
@@ -155,7 +145,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content.widget.SectionSelect(
-            weight=40,
+            weight=30,
             uid='content_section',
             label=self.t('content_section'),
             value=self.content_section,
@@ -164,16 +154,16 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content.widget.StatusSelect(
-            weight=50,
+            weight=40,
             uid='content_status',
             label=self.t('content_status'),
-            value='waiting' if self.is_new else self.content_status,
+            value=self.content_status,
             h_size='col-sm-4',
             required=True,
         ))
 
         frm.add_widget(_auth.widget.UserSelect(
-            weight=60,
+            weight=50,
             uid='content_author',
             label=self.t('content_author'),
             value=self.content_author if not self.is_new else _auth.get_current_user(),
@@ -182,7 +172,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content_import_widget.DriverSelect(
-            weight=70,
+            weight=60,
             uid='driver',
             label=self.t('driver'),
             value=self.driver,
@@ -191,14 +181,14 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.input.Tokens(
-            weight=80,
+            weight=70,
             uid='add_tags',
             label=self.t('additional_tags'),
             value=self.add_tags,
         ))
 
         frm.add_widget(_widget.select.DateTime(
-            weight=90,
+            weight=80,
             uid='paused_till',
             label=self.t('paused_till'),
             value=self.paused_till,
@@ -207,12 +197,22 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.input.Integer(
-            weight=100,
+            weight=90,
             uid='errors',
             label=self.t('errors'),
             value=self.errors,
             h_size='col-sm-1',
             hidden=self.is_new or not self.errors,
+        ))
+
+        frm.add_widget(_widget.static.Text(
+            weight=100,
+            uid='content_language',
+            label=self.t('content_language'),
+            value=self.content_language,
+            title=_lang.lang_title(self.content_language),
+            h_size='col-sm-4',
+            required=True,
         ))
 
         # Replace placeholder widget with real widget provided from driver
@@ -233,4 +233,3 @@ class ContentImport(_odm_ui.model.UIEntity):
             driver_opts[k.replace('driver_opts_', '')] = widget.value
 
         self.f_set('driver_opts', driver_opts)
-

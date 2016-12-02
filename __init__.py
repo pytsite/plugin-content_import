@@ -28,6 +28,7 @@ def _init():
     # Event handlers
     events.listen('pytsite.odm.model.setup_indexes', _eh.odm_model_setup_indexes)
     events.listen('pytsite.cron.1min', _eh.cron_1min)
+    events.listen('pytsite.taxonomy.term.pre_delete', _eh.taxonomy_term_pre_delete)
 
     # Sidebar menu
     m = 'content_import'
