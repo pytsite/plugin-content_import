@@ -1,1 +1,18 @@
-{}
+{
+  "name": "Content Import",
+  "description": {
+    "en": "Subsystem for content import",
+    "ru": "Подсистема импорта контента",
+    "uk": "Підсистема імпорту контенту"
+  },
+  "url": "https://github.com/pytsite/plugin-content_import",
+  "author": {
+    "name": "Alexander Shepetko",
+    "email": "a@shepetko.com",
+    "url": "https://shepetko.com"
+  },
+  "requires": {
+    "packages": [],
+    "plugins": []
+  }
+}

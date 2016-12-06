@@ -3,6 +3,10 @@
 
 ## Changelog
 
+### 0.3 (2016-12-06)
+- Added author tag processing by RSS driver.
+
+
 ### 0.2.2 (2016-12-02)
 - Fixed content section's autodetection.
 

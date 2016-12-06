@@ -1,5 +1,6 @@
 """PytSite Content Import Drivers.
 """
+import re as _re
 from abc import ABC as _ABC, abstractmethod as _abstractmethod
 from typing import Iterable as _Iterable, Tuple as _Tuple
 from frozendict import frozendict as _frozendict
@@ -140,14 +141,30 @@ class RSS(Abstract):
                     if enc.attributes['type'].startswith('image'):
                         entity.f_add('images', _file.create(enc.attributes['url']))
 
-            # Store information about content source
+            # Content source link and domain
             if rss_item.has_children('link'):
                 rss_item_link = rss_item.get_children('link')[0].text
+
                 entity.f_add('content_import', {
                     'source_link': rss_item_link,
-                    'source_domain': urlparse(rss_item_link)[1]
+                    'source_domain': urlparse(rss_item_link)[1],
                 })
+
                 if entity.has_field('ext_links'):
                     entity.f_add('ext_links', rss_item_link)
+
+            # Content source author
+            if rss_item.has_children('author'):
+                author = rss_item.get_children('author')[0].text
+                entity.f_add('content_import', {
+                    'source_author': author
+                })
+
+                match = _re.match('(\S+)\s+\((.+?)\)', author)
+                if match:
+                    entity.f_add('content_import', {
+                        'source_author_email': _validation.rule.Email(match.group(1)).validate(),
+                        'source_author_name': match.group(2)
+                    })
 
             yield entity
