@@ -1,7 +1,7 @@
 """PytSite Content Import Package.
 """
 # Public API
-from ._api import register_driver, get_driver, get_drivers
+from ._api import register_driver, get_driver, get_drivers, find
 from . import _driver as driver, _model as model, _error as error
 
 __author__ = 'Alexander Shepetko'

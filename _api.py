@@ -2,6 +2,7 @@
 """
 from typing import Dict as _Dict
 from frozendict import frozendict as _frozendict
+from pytsite import odm as _odm, lang as _lang
 from . import _driver, _error
 
 __author__ = 'Alexander Shepetko'
@@ -30,3 +31,16 @@ def get_driver(driver_name: str) -> _driver.Abstract:
         raise _error.DriverNotRegistered("Content import driver '{}' is not registered.")
 
     return _drivers[driver_name]
+
+
+def find(content_language: str = None) -> _odm.Finder:
+    """Get ODM finder for 'content_import' model.
+    """
+    f = _odm.find('content_import')
+
+    if content_language is None:
+        f.eq('content_language', _lang.get_current())
+    elif content_language != '*':
+        f.eq('content_language', content_language)
+
+    return f

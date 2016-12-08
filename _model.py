@@ -3,7 +3,8 @@
 from datetime import datetime as _datetime
 from frozendict import frozendict as _frozendict
 from pytsite import odm as _odm, odm_ui as _odm_ui, auth as _auth, widget as _widget, content as _content, \
-    util as _util, router as _router, form as _form, lang as _lang, auth_storage_odm as _auth_storage_odm
+    util as _util, router as _router, form as _form, lang as _lang, auth_storage_odm as _auth_storage_odm, \
+    file_storage_odm as _file_storage_odm, file as _file
 from . import _widget as _content_import_widget, _api
 
 __author__ = 'Alexander Shepetko'
@@ -19,6 +20,8 @@ class ContentImport(_odm_ui.model.UIEntity):
         """Hook.
         """
         self.define_field(_odm.field.String('driver', required=True))
+        self.define_field(_file_storage_odm.field.Image('logo'))
+        self.define_field(_odm.field.String('description'))
         self.define_field(_odm.field.Dict('driver_opts'))
         self.define_field(_odm.field.String('content_model', required=True))
         self.define_field(_auth_storage_odm.field.User('owner', required=True))
@@ -35,6 +38,10 @@ class ContentImport(_odm_ui.model.UIEntity):
     @property
     def driver(self) -> str:
         return self.f_get('driver')
+
+    @property
+    def description(self) -> str:
+        return self.f_get('description')
 
     @property
     def driver_opts(self) -> _frozendict:
@@ -83,6 +90,10 @@ class ContentImport(_odm_ui.model.UIEntity):
     @property
     def add_tags(self) -> tuple:
         return self.f_get('add_tags')
+
+    @property
+    def logo(self) -> _file.model.AbstractImage:
+        return self.f_get('logo')
 
     @classmethod
     def odm_ui_browser_setup(cls, browser):
@@ -135,8 +146,25 @@ class ContentImport(_odm_ui.model.UIEntity):
             value=self.enabled,
         ))
 
-        frm.add_widget(_content.widget.ModelSelect(
+        frm.add_widget(_file.widget.ImagesUpload(
             weight=20,
+            uid='logo',
+            label=self.t('logo'),
+            value=self.logo,
+            max_files=1,
+            show_numbers=False,
+            dnd=False,
+        ))
+
+        frm.add_widget(_widget.input.Text(
+            weight=30,
+            uid='description',
+            label=self.t('description'),
+            value=self.description,
+        ))
+
+        frm.add_widget(_content.widget.ModelSelect(
+            weight=40,
             uid='content_model',
             label=self.t('content_model'),
             value=self.content_model,
@@ -145,7 +173,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content.widget.SectionSelect(
-            weight=30,
+            weight=50,
             uid='content_section',
             label=self.t('content_section'),
             value=self.content_section,
@@ -154,7 +182,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content.widget.StatusSelect(
-            weight=40,
+            weight=60,
             uid='content_status',
             label=self.t('content_status'),
             value=self.content_status,
@@ -163,7 +191,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_auth.widget.UserSelect(
-            weight=50,
+            weight=70,
             uid='content_author',
             label=self.t('content_author'),
             value=self.content_author if not self.is_new else _auth.get_current_user(),
@@ -172,7 +200,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_content_import_widget.DriverSelect(
-            weight=60,
+            weight=80,
             uid='driver',
             label=self.t('driver'),
             value=self.driver,
@@ -181,14 +209,14 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.input.Tokens(
-            weight=70,
+            weight=90,
             uid='add_tags',
             label=self.t('additional_tags'),
             value=self.add_tags,
         ))
 
         frm.add_widget(_widget.select.DateTime(
-            weight=80,
+            weight=100,
             uid='paused_till',
             label=self.t('paused_till'),
             value=self.paused_till,
@@ -197,7 +225,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.input.Integer(
-            weight=90,
+            weight=110,
             uid='errors',
             label=self.t('errors'),
             value=self.errors,
@@ -206,7 +234,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         ))
 
         frm.add_widget(_widget.static.Text(
-            weight=100,
+            weight=120,
             uid='content_language',
             label=self.t('content_language'),
             value=self.content_language,

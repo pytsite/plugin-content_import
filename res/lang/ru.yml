@@ -17,6 +17,8 @@ word_yes: 'Да'
 rss: 'RSS'
 url: 'URL'
 forbid_content_section_delete: 'Невозможно удалить раздел ":section", поскольку он используется существующим импортом контента'
+logo: 'Логотип'
+description: 'Описание'
 
 odm_ui_browser_title_content_import: 'Обзор импорта контента'
 odm_ui_form_title_create_content_import: 'Новый импорт контента'

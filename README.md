@@ -3,6 +3,10 @@
 
 ## Changelog
 
+### 0.4 (2016-12-08)
+- Added new fields to ODM model: **logo**, **description**. 
+
+
 ### 0.3 (2016-12-06)
 - Added author tag processing by RSS driver.
 
