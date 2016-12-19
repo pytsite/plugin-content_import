@@ -1,5 +1,5 @@
 {
-  "name": "Content Import",
+  "hidden": true,
   "description": {
     "en": "Subsystem for content import",
     "ru": "Подсистема импорта контента",

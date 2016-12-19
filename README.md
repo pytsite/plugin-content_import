@@ -3,16 +3,20 @@
 
 ## Changelog
 
+### 0.4.1 (2016-12-19)
+plugin.json updated.
+
+
 ### 0.4 (2016-12-08)
-- Added new fields to ODM model: **logo**, **description**. 
+New fields in ODM model: **logo**, **description**. 
 
 
 ### 0.3 (2016-12-06)
-- Added author tag processing by RSS driver.
+Added author tag processing by RSS driver.
 
 
 ### 0.2.2 (2016-12-02)
-- Fixed content section's autodetection.
+Content section's autodetection fixed.
 
 
 ### 0.2.1 (2016-12-02)
@@ -27,4 +31,4 @@
 
 
 ### 0.1 (2016-11-26)
-- First release.
+First release.
