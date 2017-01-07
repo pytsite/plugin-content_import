@@ -2,9 +2,10 @@
 """
 from datetime import datetime as _datetime
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, odm_ui as _odm_ui, auth as _auth, widget as _widget, content as _content, \
+from pytsite import odm as _odm, odm_ui as _odm_ui, auth as _auth, widget as _widget, \
     util as _util, router as _router, form as _form, lang as _lang, auth_storage_odm as _auth_storage_odm, \
-    file_storage_odm as _file_storage_odm, file as _file
+    file_storage_odm as _file_storage_odm, file as _file, errors as _errors, events as _events
+from plugins import content as _content, section as _section
 from . import _widget as _content_import_widget, _api
 
 __author__ = 'Alexander Shepetko'
@@ -16,6 +17,15 @@ class ContentImport(_odm_ui.model.UIEntity):
     """PytSite Content Import ODM Model.
     """
 
+    @classmethod
+    def on_register(cls, model: str):
+        def section_pre_delete(section: _section.model.Section):
+            if _odm.find('content_import').eq('content_section', section).count():
+                msg_args = {'section': section.title}
+                raise _errors.ForbidDeletion(_lang.t('content_import@forbid_content_section_delete', msg_args))
+
+        _events.listen('section.pre_delete', section_pre_delete)
+
     def _setup_fields(self):
         """Hook.
         """
@@ -26,7 +36,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         self.define_field(_odm.field.String('content_model', required=True))
         self.define_field(_auth_storage_odm.field.User('owner', required=True))
         self.define_field(_auth_storage_odm.field.User('content_author', required=True))
-        self.define_field(_odm.field.Ref('content_section', model='section'))
+        self.define_field(_odm.field.Ref('content_section', model='section', required=True))
         self.define_field(_odm.field.String('content_status', required=True, default='published'))
         self.define_field(_odm.field.String('content_language', required=True, default=_lang.get_current()))
         self.define_field(_odm.field.Bool('enabled', default=True))
@@ -60,7 +70,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         return self.f_get('content_author')
 
     @property
-    def content_section(self) -> _content.model.Section:
+    def content_section(self) -> _section.model.Section:
         return self.f_get('content_section')
 
     @property
@@ -172,7 +182,7 @@ class ContentImport(_odm_ui.model.UIEntity):
             required=True,
         ))
 
-        frm.add_widget(_content.widget.SectionSelect(
+        frm.add_widget(_section.widget.SectionSelect(
             weight=50,
             uid='content_section',
             label=self.t('content_section'),

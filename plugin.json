@@ -1,9 +1,9 @@
 {
   "hidden": true,
   "description": {
-    "en": "Subsystem for content import",
-    "ru": "Подсистема импорта контента",
-    "uk": "Підсистема імпорту контенту"
+    "en": "Content import",
+    "ru": "Импорт контента",
+    "uk": "Імпорт контенту"
   },
   "url": "https://github.com/pytsite/plugin-content_import",
   "author": {
@@ -13,6 +13,10 @@
   },
   "requires": {
     "packages": [],
-    "plugins": []
+    "plugins": [
+      "content",
+      "section",
+      "tag"
+    ]
   }
 }

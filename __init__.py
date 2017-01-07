@@ -16,7 +16,6 @@ def _init():
     from . import _model, _api, _driver, _eh
 
     # Resources
-    lang.register_package(__name__)  # Necessary for pytsite.odm_auth
     lang.register_package(__name__, alias='content_import')
 
     # Permissions
@@ -29,14 +28,13 @@ def _init():
     events.listen('pytsite.odm.model.setup_fields', _eh.odm_model_setup_fields)
     events.listen('pytsite.odm.model.setup_indexes', _eh.odm_model_setup_indexes)
     events.listen('pytsite.cron.1min', _eh.cron_1min)
-    events.listen('pytsite.taxonomy.term.pre_delete', _eh.taxonomy_term_pre_delete)
 
     # Sidebar menu
     m = 'content_import'
     admin.sidebar.add_menu(sid='content', mid=m, title=__name__ + '@import',
                            href=router.ep_path('pytsite.odm_ui@browse', {'model': m}),
                            icon='fa fa-download',
-                           permissions=('pytsite.odm_perm.modify.' + m, 'pytsite.odm_perm.modify_own.' + m),
+                           permissions=('pytsite.odm_auth.modify.' + m, 'pytsite.odm_auth.modify_own.' + m),
                            weight=110)
 
     # RSS import driver

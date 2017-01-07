@@ -2,8 +2,8 @@
 """
 from datetime import datetime as _datetime, timedelta as _timedelta
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, logger as _logger, content as _content, reg as _reg, events as _events, \
-    taxonomy as _taxonomy, errors as _errors, lang as _lang
+from pytsite import odm as _odm, logger as _logger, reg as _reg, events as _events, errors as _errors, lang as _lang
+from plugins import content as _content, taxonomy as _taxonomy, tag as _tag, section as _section
 from . import _api, _model
 
 __author__ = 'Alexander Shepetko'
@@ -64,7 +64,7 @@ def cron_1min():
                     # Append additional tags
                     if entity.has_field('tags'):
                         for tag_title in importer.add_tags:
-                            tag = _content.dispense_tag(tag_title)
+                            tag = _tag.dispense_tag(tag_title)
                             with tag:
                                 tag.save()
                                 entity.f_add('tags', tag)
@@ -85,7 +85,7 @@ def cron_1min():
                         for img in entity.images:
                             img.delete()
 
-                    _logger.warn("Error while creating entity '{}'. {}".format(entity.title, str(e)))
+                    _logger.error("Error while creating entity '{}'. {}".format(entity.title, str(e)), exc_info=e)
 
                 finally:
                     entity.unlock()
@@ -117,8 +117,3 @@ def cron_1min():
         finally:
             importer.save()
             importer.unlock()
-
-
-def taxonomy_term_pre_delete(term: _taxonomy.model.Term):
-    if term.model == 'section' and _odm.find('content_import').eq('content_section', term).count():
-        raise _errors.ForbidDeletion(_lang.t('content_import@forbid_content_section_delete', {'section': term.title}))

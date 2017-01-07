@@ -6,7 +6,8 @@ from typing import Iterable as _Iterable, Tuple as _Tuple
 from frozendict import frozendict as _frozendict
 from urllib.parse import urlparse
 from pytsite import lang as _lang, widget as _widget, validation as _validation, feed as _feed, util as _util, \
-    content as _content, file as _file
+    file as _file
+from plugins import content as _content, section as _section, tag as _tag
 
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'
@@ -70,13 +71,18 @@ class RSS(Abstract):
         """
         o = options
 
+        entity_mock = _content.dispense(o['content_model'])
+        for f_name in 'author', 'status', 'language', 'title', 'publish_time', 'ext_links', 'section':
+            if not entity_mock.has_field(f_name):
+                raise RuntimeError("Model '{}' doesn't define field '{}'".format(o['content_model'], f_name))
+
         parser = _feed.rss.Parser()
         parser.load(o['url'])
 
         items = parser.get_children('channel')[0].get_children('item')  # type: _Tuple[_feed.rss.em.Element]
         for rss_item in items:
             # Check for duplication
-            f = _content.find(o['content_model'], status=None, check_publish_time=False, language=o['content_language'])
+            f = _content.find(o['content_model'], status='*', check_publish_time=False, language=o['content_language'])
             if f.inc('ext_links', rss_item.get_children('link')[0].text).count():
                 continue
 
@@ -95,21 +101,20 @@ class RSS(Abstract):
                 entity.f_set('description', _util.strip_html_tags(rss_item.get_children('description')[0].text))
 
             # Section
-            if entity.has_field('section'):
-                entity.f_set('section', o['content_section'])
+            entity.f_set('section', o['content_section'])
 
-                # Trying to find appropriate section according to source data
-                if rss_item.has_children('category'):
-                    for category in rss_item.get_children('category'):
-                        s = _content.find_section_by_title(category.title, language=o['content_language'])
-                        if s:
-                            entity.f_set('section', s)
-                            break
+            # Trying to find appropriate section according to source data
+            if rss_item.has_children('category'):
+                for category in rss_item.get_children('category'):
+                    s = _section.find_by_title(category.title, language=o['content_language'])
+                    if s:
+                        entity.f_set('section', s)
+                        break
 
             # Tags
             if entity.has_field('tags') and rss_item.has_children('{https://pytsite.xyz}tag'):
                 for tag in rss_item.get_children('{https://pytsite.xyz}tag'):
-                    tag_obj = _content.dispense_tag(tag.text, language=o['content_language'])
+                    tag_obj = _tag.dispense_tag(tag.text, language=o['content_language'])
                     with tag_obj:
                         tag_obj.save()
                     entity.f_add('tags', tag_obj)
