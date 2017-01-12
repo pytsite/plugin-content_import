@@ -149,125 +149,124 @@ class ContentImport(_odm_ui.model.UIEntity):
     def odm_ui_m_form_setup_widgets(self, frm: _form.Form):
         """Setup of a modification form.
         """
-        frm.add_widget(_widget.select.Checkbox(
-            weight=10,
-            uid='enabled',
-            label=self.t('enabled'),
-            value=self.enabled,
-        ))
+        if frm.step == 1:
+            frm.add_widget(_widget.select.Checkbox(
+                weight=10,
+                uid='enabled',
+                label=self.t('enabled'),
+                value=self.enabled,
+            ))
 
-        frm.add_widget(_file.widget.ImagesUpload(
-            weight=20,
-            uid='logo',
-            label=self.t('logo'),
-            value=self.logo,
-            max_files=1,
-            show_numbers=False,
-            dnd=False,
-        ))
+            frm.add_widget(_file.widget.ImagesUpload(
+                weight=20,
+                uid='logo',
+                label=self.t('logo'),
+                value=self.logo,
+                max_files=1,
+                show_numbers=False,
+                dnd=False,
+            ))
 
-        frm.add_widget(_widget.input.Text(
-            weight=30,
-            uid='description',
-            label=self.t('description'),
-            value=self.description,
-        ))
+            frm.add_widget(_widget.input.Text(
+                weight=30,
+                uid='description',
+                label=self.t('description'),
+                value=self.description,
+            ))
 
-        frm.add_widget(_content.widget.ModelSelect(
-            weight=40,
-            uid='content_model',
-            label=self.t('content_model'),
-            value=self.content_model,
-            h_size='col-sm-4',
-            required=True,
-        ))
+            frm.add_widget(_content.widget.ModelSelect(
+                weight=40,
+                uid='content_model',
+                label=self.t('content_model'),
+                value=self.content_model,
+                h_size='col-sm-4',
+                required=True,
+            ))
 
-        frm.add_widget(_section.widget.SectionSelect(
-            weight=50,
-            uid='content_section',
-            label=self.t('content_section'),
-            value=self.content_section,
-            h_size='col-sm-4',
-            required=True,
-        ))
+            frm.add_widget(_section.widget.SectionSelect(
+                weight=50,
+                uid='content_section',
+                label=self.t('content_section'),
+                value=self.content_section,
+                h_size='col-sm-4',
+                required=True,
+            ))
 
-        frm.add_widget(_content.widget.StatusSelect(
-            weight=60,
-            uid='content_status',
-            label=self.t('content_status'),
-            value=self.content_status,
-            h_size='col-sm-4',
-            required=True,
-        ))
+            frm.add_widget(_content.widget.StatusSelect(
+                weight=60,
+                uid='content_status',
+                label=self.t('content_status'),
+                value=self.content_status,
+                h_size='col-sm-4',
+                required=True,
+            ))
 
-        frm.add_widget(_auth.widget.UserSelect(
-            weight=70,
-            uid='content_author',
-            label=self.t('content_author'),
-            value=self.content_author if not self.is_new else _auth.get_current_user(),
-            h_size='col-sm-4',
-            required=True,
-        ))
+            frm.add_widget(_auth.widget.UserSelect(
+                weight=70,
+                uid='content_author',
+                label=self.t('content_author'),
+                value=self.content_author if not self.is_new else _auth.get_current_user(),
+                h_size='col-sm-4',
+                required=True,
+            ))
 
-        frm.add_widget(_content_import_widget.DriverSelect(
-            weight=80,
-            uid='driver',
-            label=self.t('driver'),
-            value=self.driver,
-            h_size='col-sm-4',
-            required=True,
-        ))
+            frm.add_widget(_content_import_widget.DriverSelect(
+                weight=80,
+                uid='driver',
+                label=self.t('driver'),
+                value=self.driver,
+                h_size='col-sm-4',
+                required=True,
+            ))
 
-        frm.add_widget(_widget.input.Tokens(
-            weight=90,
-            uid='add_tags',
-            label=self.t('additional_tags'),
-            value=self.add_tags,
-        ))
+            frm.add_widget(_widget.input.Tokens(
+                weight=90,
+                uid='add_tags',
+                label=self.t('additional_tags'),
+                value=self.add_tags,
+            ))
 
-        frm.add_widget(_widget.select.DateTime(
-            weight=100,
-            uid='paused_till',
-            label=self.t('paused_till'),
-            value=self.paused_till,
-            h_size='col-sm-5 col-md-4 col-lg-3',
-            hidden=self.is_new,
-        ))
+            frm.add_widget(_widget.select.DateTime(
+                weight=100,
+                uid='paused_till',
+                label=self.t('paused_till'),
+                value=self.paused_till,
+                h_size='col-sm-5 col-md-4 col-lg-3',
+                hidden=self.is_new,
+            ))
 
-        frm.add_widget(_widget.input.Integer(
-            weight=110,
-            uid='errors',
-            label=self.t('errors'),
-            value=self.errors,
-            h_size='col-sm-1',
-            hidden=self.is_new or not self.errors,
-        ))
+            frm.add_widget(_widget.input.Integer(
+                weight=110,
+                uid='errors',
+                label=self.t('errors'),
+                value=self.errors,
+                h_size='col-sm-1',
+                hidden=self.is_new or not self.errors,
+            ))
 
-        frm.add_widget(_widget.static.Text(
-            weight=120,
-            uid='content_language',
-            label=self.t('content_language'),
-            value=self.content_language,
-            title=_lang.lang_title(self.content_language),
-            h_size='col-sm-4',
-            required=True,
-        ))
+            frm.add_widget(_widget.static.Text(
+                weight=120,
+                uid='content_language',
+                label=self.t('content_language'),
+                value=self.content_language,
+                title=_lang.lang_title(self.content_language),
+                h_size='col-sm-4',
+                required=True,
+            ))
 
-        # Replace placeholder widget with real widget provided from driver
         if frm.step == 2:
             driver = _api.get_driver(_router.request().inp.get('driver'))
             settings_widget = driver.get_settings_widget(self.driver_opts)
-            settings_widget.form_step = 2
             frm.add_widget(settings_widget)
 
     def odm_ui_m_form_submit(self, frm: _form.Form):
         """Hook.
         """
         driver_opts = {}
-        for k, widget in frm.get_widgets().items():
-            if not k.startswith('driver_opts_'):
+        for w in frm.get_widgets():
+            if not w.uid.startswith('driver_opts_'):
                 continue
 
-            driver_opts[k.replace('driver_opts_', '')] = widget.value
+            driver_opts[w.uid.replace('driver_opts_', '')] = w.value
 
         self.f_set('driver_opts', driver_opts)
