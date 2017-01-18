@@ -144,7 +144,6 @@ class ContentImport(_odm_ui.model.UIEntity):
         """Hook.
         """
         frm.steps = 2
-        frm.reload_on_forward = True
 
     def odm_ui_m_form_setup_widgets(self, frm: _form.Form):
         """Setup of a modification form.

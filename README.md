@@ -4,6 +4,10 @@
 ## Changelog
 
 
+### 0.5.2 (2017-01-18)
+Support for latest `tag` plugin changes.
+
+
 ### 0.5.1 (2017-01-12)
 Support for latest PytSite `form`'s changes.
 
