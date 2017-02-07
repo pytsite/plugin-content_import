@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 0.5.3 (2017-02-07)
+- Added check wor working state.
+- Fixed importing multiple video links in RSS driver.
+
+
 ### 0.5.2 (2017-01-18)
 Support for latest `tag` plugin changes.
 

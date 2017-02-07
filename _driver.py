@@ -123,8 +123,8 @@ class RSS(Abstract):
             if entity.has_field('video_links') and rss_item.has_children('{http://search.yahoo.com/mrss}group'):
                 for m_group in rss_item.get_children('{http://search.yahoo.com/mrss}group'):
                     if m_group.has_children('{http://search.yahoo.com/mrss}player'):
-                        m_player = m_group.get_children('{http://search.yahoo.com/mrss}player')[0]
-                        entity.f_add('video_links', m_player.attributes['url'])
+                        for m_player in m_group.get_children('{http://search.yahoo.com/mrss}player'):
+                            entity.f_add('video_links', m_player.attributes['url'])
 
             # Body
             if entity.has_field('body'):

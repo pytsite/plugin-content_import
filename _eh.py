@@ -2,13 +2,15 @@
 """
 from datetime import datetime as _datetime, timedelta as _timedelta
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, logger as _logger, reg as _reg, events as _events, errors as _errors, lang as _lang
-from plugins import content as _content, taxonomy as _taxonomy, tag as _tag, section as _section
+from pytsite import odm as _odm, logger as _logger, reg as _reg, events as _events
+from plugins import content as _content, tag as _tag
 from . import _api, _model
 
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
+
+_working = False
 
 
 def odm_model_setup_fields(entity: _odm.model.Entity):
@@ -28,6 +30,14 @@ def odm_model_setup_indexes(entity: _odm.model.Entity):
 def cron_1min():
     """pytsite.cron.1min
     """
+    global _working
+
+    if _working:
+        _logger.warn('Content import is still working')
+        return
+
+    _working = True
+
     max_errors = _reg.get('content_import.max_errors', 13)
     max_items = _reg.get('content_import.max_items', 10)
     delay_errors = _reg.get('content_import.delay_errors', 120)
@@ -117,3 +127,5 @@ def cron_1min():
         finally:
             importer.save()
             importer.unlock()
+
+    _working = False
