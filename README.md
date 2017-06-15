@@ -4,6 +4,10 @@
 ## Changelog
 
 
+### 0.5.4 (2017-06-15)
+Updated to support latest PytSite version 0.99.39.
+
+
 ### 0.5.3 (2017-02-07)
 - Added check wor working state.
 - Fixed importing multiple video links in RSS driver.

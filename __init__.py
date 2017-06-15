@@ -32,7 +32,7 @@ def _init():
     # Sidebar menu
     m = 'content_import'
     admin.sidebar.add_menu(sid='content', mid=m, title=__name__ + '@import',
-                           href=router.ep_path('pytsite.odm_ui@browse', {'model': m}),
+                           href=router.rule_path('pytsite.odm_ui@browse', {'model': m}),
                            icon='fa fa-download',
                            permissions=('pytsite.odm_auth.modify.' + m, 'pytsite.odm_auth.modify_own.' + m),
                            weight=110)
