@@ -2,7 +2,7 @@
 """
 from datetime import datetime as _datetime
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, odm_ui as _odm_ui, auth as _auth, widget as _widget, \
+from pytsite import odm as _odm, odm_ui as _odm_ui, auth as _auth, widget as _widget, auth_ui as _auth_ui, \
     util as _util, router as _router, form as _form, lang as _lang, auth_storage_odm as _auth_storage_odm, \
     file_storage_odm as _file_storage_odm, file as _file, errors as _errors, events as _events
 from plugins import content as _content, section as _section
@@ -200,7 +200,7 @@ class ContentImport(_odm_ui.model.UIEntity):
                 required=True,
             ))
 
-            frm.add_widget(_auth.widget.UserSelect(
+            frm.add_widget(_auth_ui.widget.UserSelect(
                 weight=70,
                 uid='content_author',
                 label=self.t('content_author'),
