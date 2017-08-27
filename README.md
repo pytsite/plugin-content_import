@@ -4,6 +4,10 @@
 ## Changelog
 
 
+### 0.5.6 (2017-08-27)
+`plugin.json` updated.
+
+
 ### 0.5.5 (2017-07-03)
 Support for latest PytSite-1.0 release.
 
