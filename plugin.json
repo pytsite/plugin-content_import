@@ -1,6 +1,6 @@
 {
-  "name": "plugins.content_import",
-  "version": "0.5.6",
+  "name": "content_import",
+  "version": "1.0",
   "description": {
     "en": "Content import",
     "ru": "Импорт контента",

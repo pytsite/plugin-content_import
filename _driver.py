@@ -115,8 +115,7 @@ class RSS(Abstract):
             if entity.has_field('tags') and rss_item.has_children('{https://pytsite.xyz}tag'):
                 for tag in rss_item.get_children('{https://pytsite.xyz}tag'):
                     tag_obj = _tag.dispense(tag.text, language=o['content_language'])
-                    with tag_obj:
-                        tag_obj.save()
+                    tag_obj.save()
                     entity.f_add('tags', tag_obj)
 
             # Video links
