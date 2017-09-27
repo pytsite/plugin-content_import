@@ -60,7 +60,6 @@ def cron_1min():
         driver = _api.get_driver(importer.driver)
         items_imported = 0
         try:
-            importer.lock()
             _logger.info('Content import started. Driver: {}. Options: {}'.format(driver.get_name(), options))
 
             # Get entities from driver and save them
@@ -69,8 +68,6 @@ def cron_1min():
                     break
 
                 try:
-                    entity.lock()
-
                     # Append additional tags
                     if entity.has_field('tags'):
                         for tag_title in importer.add_tags:
@@ -95,9 +92,6 @@ def cron_1min():
                             img.delete()
 
                     _logger.error("Error while creating entity '{}'. {}".format(entity.title, str(e)), exc_info=e)
-
-                finally:
-                    entity.unlock()
 
             # Mark that driver made its work without errors
             importer.f_set('errors', 0)
@@ -125,6 +119,5 @@ def cron_1min():
 
         finally:
             importer.save()
-            importer.unlock()
 
     _working = False
