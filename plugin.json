@@ -1,6 +1,6 @@
 {
   "name": "content_import",
-  "version": "1.0.1",
+  "version": "2.0",
   "description": {
     "en": "Content import",
     "ru": "Импорт контента",
@@ -15,9 +15,20 @@
   "requires": {
     "packages": [],
     "plugins": [
+      "admin",
+      "auth_storage_odm",
+      "auth_ui",
       "content",
+      "feed",
+      "file",
+      "file_storage_odm",
+      "form",
+      "odm",
+      "odm_ui",
+      "permissions",
       "section",
-      "tag"
+      "tag",
+      "widget"
     ]
   }
 }

@@ -1,11 +1,11 @@
-"""PytSite Content Import ODM Model.
+"""PytSite Content Import Plugin Models
 """
 from datetime import datetime as _datetime
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, odm_ui as _odm_ui, auth as _auth, widget as _widget, auth_ui as _auth_ui, \
-    util as _util, router as _router, form as _form, lang as _lang, auth_storage_odm as _auth_storage_odm, \
-    file_storage_odm as _file_storage_odm, file as _file, errors as _errors, events as _events
-from plugins import content as _content, section as _section
+from pytsite import util as _util, router as _router, lang as _lang, errors as _errors, events as _events
+from plugins import odm as _odm, auth as _auth, content as _content, section as _section, auth_ui as _auth_ui, \
+    odm_ui as _odm_ui, auth_storage_odm as _auth_storage_odm, file_storage_odm as _file_storage_odm, file as _file, \
+    form as _form, widget as _widget
 from . import _widget as _content_import_widget, _api
 
 __author__ = 'Alexander Shepetko'
@@ -108,7 +108,7 @@ class ContentImport(_odm_ui.model.UIEntity):
     @classmethod
     def odm_ui_browser_setup(cls, browser):
         """Hook.
-        :type browser: pytsite.odm_ui._browser.Browser
+        :type browser: odm_ui._browser.Browser
         """
         browser.default_sort_field = 'driver'
         browser.finder_adjust = lambda f: f.eq('content_language', _lang.get_current())

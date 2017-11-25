@@ -1,4 +1,4 @@
-"""PytSite Content Import Plugin Errors.
+"""PytSite Content Import Plugin Errors
 """
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'

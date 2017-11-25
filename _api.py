@@ -1,8 +1,9 @@
-"""PytSite Content Import Plugin API Functions.
+"""PytSite Content Import Plugin API Functions
 """
 from typing import Dict as _Dict
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, lang as _lang
+from pytsite import lang as _lang
+from plugins import odm as _odm
 from . import _driver, _error
 
 __author__ = 'Alexander Shepetko'

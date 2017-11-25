@@ -1,9 +1,9 @@
-"""PytSite Content Import Plugin Event Handlers.
+"""PytSite Content Import Plugin Events Handlers
 """
 from datetime import datetime as _datetime, timedelta as _timedelta
 from frozendict import frozendict as _frozendict
-from pytsite import odm as _odm, logger as _logger, reg as _reg, events as _events
-from plugins import content as _content, tag as _tag
+from pytsite import logger as _logger, reg as _reg, events as _events
+from plugins import odm as _odm, content as _content, tag as _tag
 from . import _api, _model
 
 __author__ = 'Alexander Shepetko'
@@ -14,14 +14,14 @@ _working = False
 
 
 def odm_model_setup_fields(entity: _odm.model.Entity):
-    """pytsite.odm.model.setup_fields
+    """odm.model.setup_fields
     """
     if isinstance(entity, _content.model.Content):
         entity.define_field(_odm.field.Dict('content_import'))
 
 
 def odm_model_setup_indexes(entity: _odm.model.Entity):
-    """pytsite.odm.model.setup_indexes
+    """odm.model.setup_indexes
     """
     if isinstance(entity, _content.model.Content):
         entity.define_index([('content_import.source_domain', _odm.I_ASC)])
