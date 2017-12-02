@@ -5,7 +5,7 @@ from frozendict import frozendict as _frozendict
 from pytsite import util as _util, router as _router, lang as _lang, errors as _errors, events as _events
 from plugins import odm as _odm, auth as _auth, content as _content, section as _section, auth_ui as _auth_ui, \
     odm_ui as _odm_ui, auth_storage_odm as _auth_storage_odm, file_storage_odm as _file_storage_odm, file as _file, \
-    form as _form, widget as _widget
+    form as _form, widget as _widget, file_ui as _file_ui
 from . import _widget as _content_import_widget, _api
 
 __author__ = 'Alexander Shepetko'
@@ -156,7 +156,7 @@ class ContentImport(_odm_ui.model.UIEntity):
                 value=self.enabled,
             ))
 
-            frm.add_widget(_file.widget.ImagesUpload(
+            frm.add_widget(_file_ui.widget.ImagesUpload(
                 weight=20,
                 uid='logo',
                 label=self.t('logo'),

@@ -1,6 +1,6 @@
 {
   "name": "content_import",
-  "version": "2.0",
+  "version": "2.1",
   "description": {
     "en": "Content import",
     "ru": "Импорт контента",
@@ -22,6 +22,7 @@
       "feed",
       "file",
       "file_storage_odm",
+      "file_ui",
       "form",
       "odm",
       "odm_ui",
