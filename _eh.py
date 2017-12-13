@@ -79,7 +79,7 @@ def cron_1min():
                     entity.save()
 
                     # Notify listeners
-                    _events.fire('content_import.import', driver=driver, entity=entity)
+                    _events.fire('content_import@import', driver=driver, entity=entity)
 
                     _logger.info("Content entity imported: '{}'".format(entity.f_get('title')))
                     items_imported += 1

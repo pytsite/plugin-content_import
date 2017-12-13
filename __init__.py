@@ -1,17 +1,18 @@
 """PytSite Content Import Plugin
 """
-# Public API
-from ._api import register_driver, get_driver, get_drivers, find
-from . import _driver as driver, _model as model, _error as error
-
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
+from pytsite import plugman as _plugman
 
-def _init():
-    """Init wrapper.
-    """
+if _plugman.is_installed(__name__):
+    # Public API
+    from ._api import register_driver, get_driver, get_drivers, find
+    from . import _driver as driver, _model as model, _error as error
+
+
+def plugin_load():
     from pytsite import lang, router, events
     from plugins import permissions, odm, admin
     from . import _model, _api, _driver, _eh
@@ -26,9 +27,9 @@ def _init():
     odm.register_model('content_import', _model.ContentImport)
 
     # Event handlers
-    events.listen('odm.model.setup_fields', _eh.odm_model_setup_fields)
-    events.listen('odm.model.setup_indexes', _eh.odm_model_setup_indexes)
-    events.listen('pytsite.cron.1min', _eh.cron_1min)
+    events.listen('odm@model.setup_fields', _eh.odm_model_setup_fields)
+    events.listen('odm@model.setup_indexes', _eh.odm_model_setup_indexes)
+    events.listen('pytsite.cron@1min', _eh.cron_1min)
 
     # Sidebar menu
     m = 'content_import'
@@ -40,6 +41,3 @@ def _init():
 
     # RSS import driver
     _api.register_driver(_driver.RSS())
-
-
-_init()

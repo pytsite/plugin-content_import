@@ -24,7 +24,7 @@ class ContentImport(_odm_ui.model.UIEntity):
                 msg_args = {'section': section.title}
                 raise _errors.ForbidDeletion(_lang.t('content_import@forbid_content_section_delete', msg_args))
 
-        _events.listen('section.pre_delete', section_pre_delete)
+        _events.listen('section@pre_delete', section_pre_delete)
 
     def _setup_fields(self):
         """Hook.
