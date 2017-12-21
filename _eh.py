@@ -112,7 +112,7 @@ def cron_1min():
                 # Pause importer
                 importer.f_set('paused_till', _datetime.now() + _timedelta(minutes=delay_errors))
 
-            _logger.error(str(e), exc_info=e)
+            _logger.error(e)
 
             # Continue to the next importer
             continue

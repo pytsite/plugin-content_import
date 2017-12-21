@@ -13,8 +13,8 @@ if _plugman.is_installed(__name__):
 
 
 def plugin_load():
-    from pytsite import lang, router, events
-    from plugins import permissions, odm, admin
+    from pytsite import lang, events
+    from plugins import permissions, odm
     from . import _model, _api, _driver, _eh
 
     # Resources
@@ -29,7 +29,18 @@ def plugin_load():
     # Event handlers
     events.listen('odm@model.setup_fields', _eh.odm_model_setup_fields)
     events.listen('odm@model.setup_indexes', _eh.odm_model_setup_indexes)
-    events.listen('pytsite.cron@1min', _eh.cron_1min)
+
+    # RSS import driver
+    _api.register_driver(_driver.RSS())
+
+
+def plugin_load_uwsgi():
+    from pytsite import router, cron
+    from plugins import admin
+    from . import _eh
+
+    # Cron tasks
+    cron.every_min(_eh.cron_1min)
 
     # Sidebar menu
     m = 'content_import'
@@ -38,6 +49,3 @@ def plugin_load():
                            icon='fa fa-download',
                            permissions=('odm_auth.modify.' + m, 'odm_auth.modify_own.' + m),
                            weight=110)
-
-    # RSS import driver
-    _api.register_driver(_driver.RSS())

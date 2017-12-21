@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.2.1 (2017-12-21)
+
+Init code fixed.
+
+
 ### 2.2 (2017-12-13)
 
 Support for PytSite-7.0.
