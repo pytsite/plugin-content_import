@@ -1,14 +1,14 @@
 """PytSite Content Import Plugin API Functions
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 from typing import Dict as _Dict
 from frozendict import frozendict as _frozendict
 from pytsite import lang as _lang
 from plugins import odm as _odm
 from . import _driver, _error
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 _drivers = {}  # type: _Dict[str, _driver.Abstract]
 

@@ -4,12 +4,9 @@ __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from pytsite import plugman as _plugman
-
-if _plugman.is_installed(__name__):
-    # Public API
-    from ._api import register_driver, get_driver, get_drivers, find
-    from . import _driver as driver, _model as model, _error as error
+# Public API
+from ._api import register_driver, get_driver, get_drivers, find
+from . import _driver as driver, _model as model, _error as error
 
 
 def plugin_load():
@@ -45,7 +42,7 @@ def plugin_load_uwsgi():
     # Sidebar menu
     m = 'content_import'
     admin.sidebar.add_menu(sid='content', mid=m, title=__name__ + '@import',
-                           href=router.rule_path('odm_ui@browse', {'model': m}),
+                           path=router.rule_path('odm_ui@browse', {'model': m}),
                            icon='fa fa-download',
-                           permissions=('odm_auth.modify.' + m, 'odm_auth.modify_own.' + m),
+                           permissions=('odm_auth@modify.' + m, 'odm_auth@modify_own.' + m),
                            weight=110)

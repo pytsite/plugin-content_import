@@ -1,14 +1,14 @@
 """PytSite Content Import Plugin Events Handlers
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 from datetime import datetime as _datetime, timedelta as _timedelta
 from frozendict import frozendict as _frozendict
 from pytsite import logger as _logger, reg as _reg, events as _events
 from plugins import odm as _odm, content as _content, tag as _tag
 from . import _api, _model
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 _working = False
 

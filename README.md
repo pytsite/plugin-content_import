@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.3 (2018-01-26)
+
+Support for `admin-1.3`.
+
+
 ### 2.2.1 (2017-12-21)
 
 Init code fixed.

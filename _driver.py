@@ -1,5 +1,9 @@
 """PytSite Content Import Plugin Drivers
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 import re as _re
 from abc import ABC as _ABC, abstractmethod as _abstractmethod
 from typing import Iterable as _Iterable, Tuple as _Tuple
@@ -8,10 +12,6 @@ from urllib.parse import urlparse
 from pytsite import lang as _lang, validation as _validation, util as _util
 from plugins import content as _content, section as _section, tag as _tag, feed as _feed, file as _file, \
     widget as _widget
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 
 class Abstract(_ABC):

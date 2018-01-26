@@ -1,5 +1,9 @@
 """PytSite Content Import Plugin Models
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 from datetime import datetime as _datetime
 from frozendict import frozendict as _frozendict
 from pytsite import util as _util, router as _router, lang as _lang, errors as _errors, events as _events
@@ -7,10 +11,6 @@ from plugins import odm as _odm, auth as _auth, content as _content, section as 
     odm_ui as _odm_ui, auth_storage_odm as _auth_storage_odm, file_storage_odm as _file_storage_odm, file as _file, \
     form as _form, widget as _widget, file_ui as _file_ui
 from . import _widget as _content_import_widget, _api
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 
 class ContentImport(_odm_ui.model.UIEntity):
