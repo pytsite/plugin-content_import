@@ -148,7 +148,7 @@ class ContentImport(_odm_ui.model.UIEntity):
     def odm_ui_m_form_setup_widgets(self, frm: _form.Form):
         """Setup of a modification form.
         """
-        if frm.step == 1:
+        if frm.current_step == 1:
             frm.add_widget(_widget.select.Checkbox(
                 weight=10,
                 uid='enabled',
@@ -253,7 +253,7 @@ class ContentImport(_odm_ui.model.UIEntity):
                 required=True,
             ))
 
-        if frm.step == 2:
+        if frm.current_step == 2:
             driver = _api.get_driver(_router.request().inp.get('driver'))
             settings_widget = driver.get_settings_widget(self.driver_opts)
             frm.add_widget(settings_widget)

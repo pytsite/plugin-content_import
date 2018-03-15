@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.4 (2018-03-15)
+
+Support for `form-2.0`.
+
+
 ### 2.3 (2018-01-26)
 
 Support for `admin-1.3`.
