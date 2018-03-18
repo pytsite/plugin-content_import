@@ -71,8 +71,9 @@ def cron_1min():
                     # Append additional tags
                     if entity.has_field('tags'):
                         for tag_title in importer.add_tags:
-                            tag = _tag.dispense(tag_title)
-                            tag.save()
+                            tag = _tag.find_by_title(tag_title, language=importer.content_language)
+                            if not tag:
+                                tag = _tag.dispense(tag_title, language=importer.content_language).save()
                             entity.f_add('tags', tag)
 
                     # Save entity

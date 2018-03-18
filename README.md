@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.5 (2018-03-18)
+
+Support for `tag-3.0`.
+
+
 ### 2.4 (2018-03-15)
 
 Support for `form-2.0`.
