@@ -19,6 +19,8 @@ class ContentImport(_odm_ui.model.UIEntity):
 
     @classmethod
     def on_register(cls, model: str):
+        super().on_register(model)
+
         def section_pre_delete(section: _section.model.Section):
             if _odm.find('content_import').eq('content_section', section).count():
                 msg_args = {'section': section.title}

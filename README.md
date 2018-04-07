@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.5.1 (2018-04-07)
+
+ODM model's hook invocation fixed.
+
+
 ### 2.5 (2018-03-18)
 
 Support for `tag-3.0`.
