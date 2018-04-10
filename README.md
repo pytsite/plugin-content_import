@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.6 (2018-04-10)
+
+Support of `odm_ui-2.2`.
+
+
 ### 2.5.1 (2018-04-07)
 
 ODM model's hook invocation fixed.

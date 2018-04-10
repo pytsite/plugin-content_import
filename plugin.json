@@ -25,7 +25,7 @@
       "font_awesome",
       "form>=2.0",
       "odm",
-      "odm_ui",
+      "odm_ui>=2.2",
       "permissions",
       "section",
       "tag>=3.0",

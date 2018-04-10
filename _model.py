@@ -261,7 +261,7 @@ class ContentImport(_odm_ui.model.UIEntity):
             frm.add_widget(settings_widget)
 
     def odm_ui_m_form_submit(self, frm: _form.Form):
-        """Hook.
+        """Hook
         """
         driver_opts = {}
         for w in frm.get_widgets():
@@ -271,3 +271,5 @@ class ContentImport(_odm_ui.model.UIEntity):
             driver_opts[w.uid.replace('driver_opts_', '')] = w.value
 
         self.f_set('driver_opts', driver_opts)
+
+        super().odm_ui_m_form_submit(frm)
