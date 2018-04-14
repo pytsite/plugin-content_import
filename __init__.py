@@ -42,7 +42,7 @@ def plugin_load_uwsgi():
     # Sidebar menu
     m = 'content_import'
     admin.sidebar.add_menu(sid='content', mid=m, title=__name__ + '@import',
-                           path=router.rule_path('odm_ui@browse', {'model': m}),
+                           path=router.rule_path('odm_ui@admin_browse', {'model': m}),
                            icon='fa fa-download',
                            permissions=('odm_auth@modify.' + m, 'odm_auth@modify_own.' + m),
                            weight=110)
