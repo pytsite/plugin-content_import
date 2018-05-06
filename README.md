@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.7.2 (2018-05-06)
+
+Entity saving error fixed.
+
+
 ### 2.7.1 (2018-04-14)
 
 `plugin.json` fixed.

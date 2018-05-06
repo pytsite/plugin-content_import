@@ -47,6 +47,12 @@ class ContentImport(_odm_ui.model.UIEntity):
         self.define_field(_odm.field.DateTime('paused_till'))
         self.define_field(_odm.field.List('add_tags'))
 
+    def _pre_save(self, **kwargs):
+        super()._pre_save(**kwargs)
+
+        if not self.owner:
+            self.f_set('owner', _auth.get_current_user())
+
     @property
     def driver(self) -> str:
         return self.f_get('driver')
