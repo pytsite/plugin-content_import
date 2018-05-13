@@ -1,6 +1,6 @@
 {
   "name": "content_import",
-  "version": "2.7.2",
+  "version": "2.8",
   "description": {
     "en": "Content import",
     "ru": "Импорт контента",
@@ -13,6 +13,7 @@
     "url": "https://shepetko.com"
   },
   "requires": {
+    "pytsite": ">=7.20",
     "plugins": [
       "admin>=1.3",
       "auth_storage_odm",

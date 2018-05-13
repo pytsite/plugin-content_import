@@ -94,7 +94,7 @@ class RSS(Abstract):
             entity.f_set('status', o['content_status'])
             entity.f_set('language', o['content_language'])
             entity.f_set('title', rss_item.get_children('title')[0].text)
-            entity.f_set('publish_time', _util.parse_rfc822_datetime_str(rss_item.get_children('pubDate')[0].text))
+            entity.f_set('publish_time', _util.parse_date_time(rss_item.get_children('pubDate')[0].text))
 
             # Description
             if rss_item.has_children('description'):

@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.8 (2018-05-13)
+
+Support of PytSite-7.20.
+
+
 ### 2.7.2 (2018-05-06)
 
 Entity saving error fixed.
