@@ -256,7 +256,7 @@ class ContentImport(_odm_ui.model.UIEntity):
                 uid='content_language',
                 label=self.t('content_language'),
                 value=self.content_language,
-                title=_lang.lang_title(self.content_language),
+                text=_lang.lang_title(self.content_language),
                 h_size='col-sm-4',
                 required=True,
             ))

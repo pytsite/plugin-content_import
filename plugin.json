@@ -1,6 +1,6 @@
 {
   "name": "content_import",
-  "version": "2.9",
+  "version": "2.10",
   "description": {
     "en": "Content import",
     "ru": "Импорт контента",
@@ -31,7 +31,7 @@
       "permissions",
       "section",
       "tag>=3.0",
-      "widget"
+      "widget>=2.11"
     ]
   }
 }
