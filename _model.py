@@ -136,7 +136,7 @@ class ContentImport(_odm_ui.model.UIEntity):
         driver = _api.get_driver(self.driver).get_description()
         driver_options = str(dict(self.driver_opts))
         content_section = self.content_section.title if self.content_section else '&nbsp;'
-        content_author = self.content_author.full_name
+        content_author = self.content_author.first_last_name
         enabled = '<span class="label label-success">' + self.t('word_yes') + '</span>' if self.enabled else ''
         paused_till = self.f_get('paused_till', fmt='pretty_date_time') if _datetime.now() < self.paused_till else ''
 
