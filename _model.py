@@ -16,18 +16,6 @@ from . import _widget as _content_import_widget, _api
 class ContentImport(_odm_ui.model.UIEntity):
     """PytSite Content Import ODM Model.
     """
-
-    @classmethod
-    def on_register(cls, model: str):
-        super().on_register(model)
-
-        def section_pre_delete(section: _section.model.Section):
-            if _odm.find('content_import').eq('content_section', section).count():
-                msg_args = {'section': section.title}
-                raise _errors.ForbidDeletion(_lang.t('content_import@forbid_content_section_delete', msg_args))
-
-        _events.listen('section@pre_delete', section_pre_delete)
-
     def _setup_fields(self):
         """Hook.
         """

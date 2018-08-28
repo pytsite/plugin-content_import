@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.11 (2018-08-28)
+
+Support of `odm-3.6`.
+
+
 ### 2.10.1 (2018-08-23)
 
 User's `full_name` usage replaced with `first_last_name`.
